@@ -23,9 +23,9 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
-    implementation("org.litote.kmongo:kmongo-coroutine:4.11.0")
+    compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+    compileOnly("org.litote.kmongo:kmongo-coroutine:4.11.0")
     implementation("ch.qos.logback:logback-classic:1.4.14")
 }
 
