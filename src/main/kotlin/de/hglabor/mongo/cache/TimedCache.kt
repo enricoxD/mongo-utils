@@ -1,6 +1,7 @@
 package de.hglabor.mongo.cache
 
-import java.time.Duration
+import kotlin.time.Duration
+
 
 /**
  * A cache with time-based clearing capabilities.
@@ -19,6 +20,6 @@ class TimedCache<K, V>(
      * Tries to flush (clear) the cache based on the specified flush interval.
      */
     override fun tryFlush() {
-        if (System.nanoTime() - lastFlush >= flushInterval.toNanos()) clear()
+        if (System.nanoTime() - lastFlush >= flushInterval.inWholeNanoseconds) clear()
     }
 }
