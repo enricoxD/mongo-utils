@@ -2,9 +2,7 @@ package de.hglabor.mongo
 
 import de.hglabor.mongo.config.MongoConfigFile
 import de.hglabor.mongo.database.MongoConnection
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import java.io.File
 
@@ -26,6 +24,23 @@ object MongoUtils {
 }
 
 /**
+ * Asynchronously executes the provided suspendable [runnable] function within a coroutine scope,
+ * returning a [Deferred] representing the result of the operation.
+ *
+ * @param runnable The suspendable function to be executed asynchronously.
+ * @return A [Deferred] representing the result of the asynchronous operation.
+ *
+ * @see kotlinx.coroutines.async
+ * @see MongoUtils.coroutineScope
+ */
+fun <T> async(runnable: suspend () -> T): Deferred<T> {
+    return MongoUtils.coroutineScope.async {
+        runnable()
+    }
+}
+
+
+/**
  * Asynchronously executes the provided suspendable [runnable] function within a coroutine scope.
  *
  * @param runnable The suspendable function to be executed asynchronously.
@@ -33,7 +48,7 @@ object MongoUtils {
  * @see kotlinx.coroutines.launch
  * @see MongoUtils.coroutineScope
  */
-fun async(runnable: suspend () -> Unit) {
+fun launchScope(runnable: suspend () -> Unit) {
     MongoUtils.coroutineScope.launch {
         runnable()
     }
