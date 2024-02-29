@@ -44,4 +44,18 @@ open class Cache<K, V> {
      * Returns the number of key-value pairs in the cache.
      */
     val size get() = cache.size
+
+    /**
+     * Returns a {@link List} view of the values contained in this cache.
+     *
+     * @return a view of the values contained in this cache
+     */
+    val values get() = cache.values.toList()
+
+    /**
+     * Returns a {@link List} view of the keys contained in this cache.
+     *
+     * @return a view of the keys contained in this cache
+     */
+    val keys get() = cache.keys
 }
