@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "de.hglabor"
-version = "1.0.6-SNAPSHOT"
+version = "1.0.8-SNAPSHOT"
 
 
 val nexusUsername = (System.getenv("NORISK_NEXUS_USERNAME") ?: project.findProperty("noriskMavenUsername") ?: "").toString()
@@ -23,9 +23,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-    compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
-    compileOnly("org.litote.kmongo:kmongo-coroutine:4.11.0")
+    implementation("org.litote.kmongo:kmongo-coroutine-serialization:4.11.0")
+    implementation("org.litote.kmongo", "kmongo-serialization-mapping", "4.11.0")
     implementation("ch.qos.logback:logback-classic:1.4.14")
 }
 
