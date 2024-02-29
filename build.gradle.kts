@@ -25,6 +25,7 @@ repositories {
 dependencies {
     implementation("org.litote.kmongo:kmongo-coroutine-serialization:4.11.0")
     implementation("org.litote.kmongo", "kmongo-serialization-mapping", "4.11.0")
+    compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     implementation("ch.qos.logback:logback-classic:1.4.14")
 }
 
