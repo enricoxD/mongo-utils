@@ -1,8 +1,11 @@
 package de.hglabor.mongo.database
 
+import com.mongodb.ConnectionString
+import com.mongodb.MongoClientSettings
 import org.litote.kmongo.reactivestreams.*
 import org.litote.kmongo.coroutine.*
 import de.hglabor.mongo.config.MongoCredentials
+import org.bson.UuidRepresentation
 
 /**
  * Singleton object responsible for establishing and managing connections to a MongoDB database.
@@ -21,7 +24,16 @@ object MongoConnection {
      */
     suspend fun establish(credentials: MongoCredentials): CoroutineDatabase? {
         runCatching {
-            client = KMongo.createClient(credentials.uri).coroutine
+            System.setProperty(
+                "org.litote.mongo.test.mapping.service",
+                "org.litote.kmongo.serialization.SerializationClassMappingTypeService"
+            )
+            client = KMongo.createClient(
+                MongoClientSettings.builder()
+                    .applyConnectionString(ConnectionString(credentials.uri))
+                    .uuidRepresentation(UuidRepresentation.STANDARD)
+                    .build()
+            ).coroutine
             client.listDatabaseNames()
             client.getDatabase(credentials.database)
         }.onSuccess { database ->
