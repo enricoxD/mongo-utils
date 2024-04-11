@@ -1,17 +1,18 @@
 plugins {
-    kotlin("jvm") version "1.9.20"
-    kotlin("plugin.serialization") version "1.9.22"
+    kotlin("jvm") version "1.9.23"
+    kotlin("plugin.serialization") version "1.9.23"
     `maven-publish`
 }
 
 group = "de.hglabor"
-version = "1.0.8-SNAPSHOT"
+version = "1.0.9-SNAPSHOT"
 
 
 val nexusUsername = (System.getenv("NORISK_NEXUS_USERNAME") ?: project.findProperty("noriskMavenUsername") ?: "").toString()
 val nexusPassword = (System.getenv("NORISK_NEXUS_PASSWORD") ?: project.findProperty("noriskMavenPassword") ?: "").toString()
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven {
         url = uri("https://maven.norisk.gg/repository/maven-snapshots/")
@@ -23,10 +24,9 @@ repositories {
 }
 
 dependencies {
-    implementation("org.litote.kmongo:kmongo-coroutine-serialization:4.11.0")
-    implementation("org.litote.kmongo", "kmongo-serialization-mapping", "4.11.0")
-    compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-    implementation("ch.qos.logback:logback-classic:1.4.14")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:4.10.1")
 }
 
 val sourceJar = tasks.register<Jar>("sourceJar") {

@@ -1,7 +1,7 @@
 package de.hglabor.mongo.repository
 
-import org.litote.kmongo.coroutine.CoroutineCollection
+import com.mongodb.kotlin.client.coroutine.MongoCollection
 
 abstract class AbstractRepository<T: Any> {
-    abstract val collection: CoroutineCollection<T>
+    abstract val collection: MongoCollection<T>
 }

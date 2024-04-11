@@ -1,6 +1,8 @@
 package de.hglabor.mongo.extensions
 
-import org.litote.kmongo.coroutine.*
+import com.mongodb.kotlin.client.coroutine.MongoCollection
+import com.mongodb.kotlin.client.coroutine.MongoDatabase
+import kotlinx.coroutines.flow.onEach
 
 val cachedCollections by lazy { hashSetOf<String>() }
 
@@ -13,8 +15,13 @@ val cachedCollections by lazy { hashSetOf<String>() }
  * @param collectionName The name of the collection to retrieve or create.
  * @return The [CoroutineCollection] with the specified name.
  */
-suspend inline fun <reified T : Any> CoroutineDatabase.getOrCreateCollection(collectionName: String): CoroutineCollection<T> {
-    if (cachedCollections.isEmpty()) cachedCollections.addAll(listCollectionNames())
+
+suspend inline fun <reified T : Any> MongoDatabase.getOrCreateCollection(collectionName: String): MongoCollection<T> {
+    if (cachedCollections.isEmpty()) {
+        listCollectionNames().onEach { collection ->
+            cachedCollections.add(collection)
+        }
+    }
     if (collectionName !in cachedCollections)
         createCollection(collectionName)
     return getCollection<T>(collectionName)
