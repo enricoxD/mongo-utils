@@ -1,13 +1,13 @@
 package de.hglabor.mongo
 
+import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import de.hglabor.mongo.config.MongoConfigFile
 import de.hglabor.mongo.database.MongoConnection
 import kotlinx.coroutines.*
-import org.litote.kmongo.coroutine.CoroutineDatabase
 import java.io.File
 
 object MongoUtils {
-    var database: CoroutineDatabase? = null
+    var database: MongoDatabase? = null
     var coroutineScope = CoroutineScope(Dispatchers.IO)
 
     /**
@@ -15,7 +15,7 @@ object MongoUtils {
      *
      * @param configFile The configuration file containing the json representation of your [de.hglabor.mongo.config.MongoCredentials]
      * **/
-    suspend fun connect(configFile: File): CoroutineDatabase? {
+    suspend fun connect(configFile: File): MongoDatabase? {
         val mongoConfig = MongoConfigFile(configFile)
         val credentials = mongoConfig.read()
         database = MongoConnection.establish(credentials)
@@ -35,7 +35,9 @@ object MongoUtils {
  */
 fun <T> async(runnable: suspend () -> T): Deferred<T> {
     return MongoUtils.coroutineScope.async {
-        runnable()
+        runCatching { runnable() }
+            .onFailure { it.printStackTrace() }
+            .getOrThrow()
     }
 }
 
@@ -50,6 +52,8 @@ fun <T> async(runnable: suspend () -> T): Deferred<T> {
  */
 fun launchScope(runnable: suspend () -> Unit) {
     MongoUtils.coroutineScope.launch {
-        runnable()
+        runCatching { runnable() }
+            .onFailure { it.printStackTrace() }
+            .getOrThrow()
     }
 }
