@@ -1,4 +1,4 @@
-package de.hglabor.mongo.utils.extentions
+package de.hglabor.mongo.extensions
 
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import kotlinx.serialization.encodeToString
