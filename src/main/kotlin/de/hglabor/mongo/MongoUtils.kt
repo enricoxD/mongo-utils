@@ -2,6 +2,7 @@ package de.hglabor.mongo
 
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import de.hglabor.mongo.config.MongoConfigFile
+import de.hglabor.mongo.config.MongoCredentials
 import de.hglabor.mongo.database.MongoConnection
 import kotlinx.coroutines.*
 import java.io.File
@@ -11,6 +12,16 @@ object MongoUtils {
     var coroutineScope = CoroutineScope(Dispatchers.IO)
 
     /**
+     * Establishes a connection to the MongoDB database using the provided credentials
+     *
+     * @param credentials You credentials to log into your database
+     * **/
+    suspend fun connect(credentials: MongoCredentials): MongoDatabase? {
+        database = MongoConnection.establish(credentials)
+        return database
+    }
+
+    /**
      * Establishes a connection to the MongoDB database using the provided configuration file
      *
      * @param configFile The configuration file containing the json representation of your [de.hglabor.mongo.config.MongoCredentials]
@@ -18,8 +29,7 @@ object MongoUtils {
     suspend fun connect(configFile: File): MongoDatabase? {
         val mongoConfig = MongoConfigFile(configFile)
         val credentials = mongoConfig.read()
-        database = MongoConnection.establish(credentials)
-        return database
+        return connect(credentials)
     }
 }
 
