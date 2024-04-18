@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "de.hglabor"
-version = "1.0.9-SNAPSHOT"
+version = "1.0.14-SNAPSHOT"
 
 
 val nexusUsername = (System.getenv("NORISK_NEXUS_USERNAME") ?: project.findProperty("noriskMavenUsername") ?: "").toString()
