@@ -9,7 +9,7 @@ import java.io.File
 
 object MongoUtils {
     var database: MongoDatabase? = null
-    var coroutineScope = CoroutineScope(Dispatchers.IO)
+    var coroutineScope = CoroutineScope(Dispatchers.IO) + SupervisorJob()
 
     /**
      * Establishes a connection to the MongoDB database using the provided credentials
