@@ -1,11 +1,11 @@
 plugins {
-    kotlin("jvm") version "2.0.20"
-    kotlin("plugin.serialization") version "2.0.20"
+    kotlin("jvm") version "1.9.23"
+    kotlin("plugin.serialization") version "1.9.23"
     `maven-publish`
 }
 
 group = "de.hglabor"
-version = "1.0.16-SNAPSHOT"
+version = "1.0.17-SNAPSHOT"
 
 
 val nexusUsername = (System.getenv("NORISK_NEXUS_USERNAME") ?: project.findProperty("noriskMavenUsername") ?: "").toString()
@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.7.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC.2")
     implementation("org.mongodb:mongodb-driver-kotlin-coroutine:5.1.4")
 }
@@ -46,7 +46,7 @@ publishing {
     }
     repositories {
         maven {
-            val releasesRepoUrl = uri("https://maven.norisk.gg/repository/maven-snapshots/")
+            val releasesRepoUrl = uri("https://maven.norisk.gg/repository/maven-releases/")
             val nexusUsername = System.getenv("NORISK_NEXUS_USERNAME") ?: project.findProperty("noriskMavenUsername") ?: ""
             val nexusPassword = System.getenv("NORISK_NEXUS_PASSWORD") ?: project.findProperty("noriskMavenPassword") ?: ""
 
